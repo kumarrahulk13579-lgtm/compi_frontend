@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { LogIn, LogOut, Moon, Sun, User } from 'lucide-react'
+import { LogIn, LogOut, Moon, Shield, Sun, User } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { useTheme } from '@/context/ThemeContext'
 
@@ -11,7 +11,7 @@ import { useTheme } from '@/context/ThemeContext'
  * sign in / sign out and the theme toggle.
  */
 export function ProfileMenu() {
-  const { isGuest, logout } = useAuth()
+  const { isGuest, isAdmin, logout } = useAuth()
   const { theme, toggle } = useTheme()
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
@@ -65,6 +65,16 @@ export function ProfileMenu() {
                   onClick={() => {
                     setOpen(false)
                     navigate('/login')
+                  }}
+                />
+              )}
+              {isAdmin && (
+                <MenuItem
+                  icon={<Shield className="size-4" />}
+                  label="Admin"
+                  onClick={() => {
+                    setOpen(false)
+                    navigate('/admin')
                   }}
                 />
               )}

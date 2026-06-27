@@ -32,6 +32,8 @@ interface AuthCtx {
   isAuthed: boolean
   /** True for an anonymous guest session (not a registered account). */
   isGuest: boolean
+  /** True when the JWT carries role: "admin". */
+  isAdmin: boolean
   login: (email: string, password: string) => Promise<void>
   register: (name: string, email: string, password: string) => Promise<void>
   guest: () => Promise<void>
@@ -73,14 +75,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setToken(token)
   }
 
-  const isGuest = useMemo(() => {
+  const { isGuest, isAdmin } = useMemo(() => {
     const claims = decodeToken(token)
-    return !!claims && claims.is_registered === false
+    return {
+      isGuest: !!claims && claims.is_registered === false,
+      isAdmin: claims?.role === 'admin',
+    }
   }, [token])
 
   return (
     <AuthContext.Provider
-      value={{ token, isAuthed: !!token, isGuest, login, register, guest, setToken, logout }}
+      value={{ token, isAuthed: !!token, isGuest, isAdmin, login, register, guest, setToken, logout }}
     >
       {children}
     </AuthContext.Provider>

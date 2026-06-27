@@ -3,8 +3,10 @@ import { ThemeProvider } from '@/context/ThemeContext'
 import { ToastProvider } from '@/context/ToastContext'
 import { AuthProvider } from '@/context/AuthContext'
 import { RequireAuth } from '@/components/RequireAuth'
+import { RequireAdmin } from '@/components/RequireAdmin'
 import { LoginPage } from '@/pages/LoginPage'
 import { ChatPage } from '@/pages/ChatPage'
+import { AdminLimitsPage } from '@/pages/AdminLimitsPage'
 import { OAuthCallbackPage } from '@/pages/OAuthCallbackPage'
 import { RobotPreviewPage } from '@/pages/RobotPreviewPage'
 
@@ -23,6 +25,16 @@ export default function App() {
                 element={
                   <RequireAuth>
                     <ChatPage />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/admin"
+                element={
+                  <RequireAuth>
+                    <RequireAdmin>
+                      <AdminLimitsPage />
+                    </RequireAdmin>
                   </RequireAuth>
                 }
               />

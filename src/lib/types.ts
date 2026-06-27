@@ -22,6 +22,20 @@ export interface ChatMessage {
   streaming?: boolean
 }
 
+/** The configurable rate-limit scopes (admin). */
+export type LimitScope = 'global_total' | 'global_guest' | 'user_guest' | 'user_registered'
+
+/** A single rate limit as returned by GET/PUT /chat/admin/limits. */
+export interface Limit {
+  scope: LimitScope
+  unit: string
+  amount: number
+  updated_at: string
+}
+
+/** Partial update body for PUT /chat/admin/limits — omit fields to leave unchanged. */
+export type LimitUpdate = Partial<Record<LimitScope, number>>
+
 /** SSE event shapes emitted by the chat-service agent. */
 export type ChatEvent =
   | { type: 'status'; message: string }

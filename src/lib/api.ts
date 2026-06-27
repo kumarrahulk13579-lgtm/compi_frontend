@@ -1,4 +1,4 @@
-import type { Conversation, Message } from './types'
+import type { Conversation, Limit, LimitUpdate, Message } from './types'
 
 export const API_BASE =
   (import.meta.env.VITE_API_BASE as string | undefined) ?? 'http://localhost:8000'
@@ -92,4 +92,13 @@ export const chatApi = {
     }),
   listMessages: (conversationId: number) =>
     request<Message[]>(`/chat/conversations/${conversationId}/messages`),
+}
+
+export const adminApi = {
+  getLimits: () => request<Limit[]>('/chat/admin/limits'),
+  updateLimits: (body: LimitUpdate) =>
+    request<Limit[]>('/chat/admin/limits', {
+      method: 'PUT',
+      body: JSON.stringify(body),
+    }),
 }

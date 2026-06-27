@@ -3,8 +3,9 @@ import { AuthForm } from '@/components/auth/AuthForm'
 import { useAuth } from '@/context/AuthContext'
 
 export function LoginPage() {
-  const { isAuthed } = useAuth()
-  if (isAuthed) return <Navigate to="/" replace />
+  const { isAuthed, isGuest } = useAuth()
+  // A guest is "authed" but should still be allowed to reach the sign-in form.
+  if (isAuthed && !isGuest) return <Navigate to="/" replace />
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden p-4">

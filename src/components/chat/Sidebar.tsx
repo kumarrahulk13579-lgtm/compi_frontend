@@ -1,18 +1,9 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import {
-  LogOut,
-  MessageSquarePlus,
-  Moon,
-  MessageSquare,
-  PanelLeftClose,
-  Sun,
-  X,
-} from 'lucide-react'
+import { MessageSquarePlus, MessageSquare, PanelLeftClose, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import type { Conversation } from '@/lib/types'
-import { useTheme } from '@/context/ThemeContext'
-import { useAuth } from '@/context/AuthContext'
+import { ProfileMenu } from './ProfileMenu'
 
 interface Props {
   conversations: Conversation[]
@@ -37,9 +28,6 @@ export function Sidebar({
   collapsed,
   onToggleCollapse,
 }: Props) {
-  const { theme, toggle } = useTheme()
-  const { logout } = useAuth()
-
   return (
     <>
       {/* Mobile overlay */}
@@ -122,14 +110,8 @@ export function Sidebar({
           )}
         </nav>
 
-        <div className="flex items-center gap-1 border-t border-[var(--border)] p-3">
-          <Button variant="ghost" size="icon" onClick={toggle} aria-label="Toggle theme">
-            {theme === 'dark' ? <Sun className="size-4" /> : <Moon className="size-4" />}
-          </Button>
-          <Button variant="ghost" className="flex-1 justify-start" onClick={logout}>
-            <LogOut className="size-4" />
-            Sign out
-          </Button>
+        <div className="border-t border-[var(--border)] p-2">
+          <ProfileMenu />
         </div>
       </aside>
     </>

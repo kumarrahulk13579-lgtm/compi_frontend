@@ -74,6 +74,12 @@ export const authApi = {
       auth: false,
       body: JSON.stringify({ name, email, password }),
     }),
+  /** Start an anonymous session — no credentials required. */
+  guest: () =>
+    request<{ token: string }>('/auth/guest', {
+      method: 'POST',
+      auth: false,
+    }),
   googleUrl: () => `${API_BASE}/auth/google`,
 }
 

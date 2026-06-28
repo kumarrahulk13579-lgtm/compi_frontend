@@ -33,5 +33,10 @@ export function useConversations() {
     [],
   )
 
-  return { conversations, loading, refresh, create }
+  // Update a conversation's title in place (e.g. from the live `title` SSE event).
+  const updateTitle = useCallback((id: number, title: string) => {
+    setConversations((prev) => prev.map((c) => (c.id === id ? { ...c, title } : c)))
+  }, [])
+
+  return { conversations, loading, refresh, create, updateTitle }
 }

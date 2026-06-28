@@ -7,13 +7,20 @@ import { useToast } from '@/context/ToastContext'
 let tmpCounter = 0
 const tmpId = () => `tmp-${Date.now()}-${tmpCounter++}`
 
-export function useChat(conversationId: number | null) {
+export function useChat(
+  conversationId: number | null,
+  onTitle?: (id: number, title: string) => void,
+) {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [loadingHistory, setLoadingHistory] = useState(false)
   const [streaming, setStreaming] = useState(false)
   const [status, setStatus] = useState<string | null>(null)
   const abortRef = useRef<AbortController | null>(null)
   const { toast } = useToast()
+
+  // Keep the latest title handler in a ref so `send` stays stable.
+  const onTitleRef = useRef(onTitle)
+  onTitleRef.current = onTitle
 
   // Load history whenever the active conversation changes.
   useEffect(() => {
@@ -73,6 +80,7 @@ export function useChat(conversationId: number | null) {
           setStatus(null)
           patch((m) => ({ ...m, content: m.content + token }))
         },
+        onTitle: (title) => onTitleRef.current?.(conversationId, title),
         onDone: finish,
         onError: (err) => {
           toast(err.message || 'The stream was interrupted')

@@ -40,5 +40,6 @@ export type LimitUpdate = Partial<Record<LimitScope, number>>
 export type ChatEvent =
   | { type: 'status'; message: string }
   | { type: 'content'; token: string }
+  | { type: 'title'; title: string }
   | { type: 'usage'; [k: string]: unknown }
   | { type: 'done' }

@@ -5,6 +5,7 @@ import type { ChatEvent } from './types'
 interface StreamHandlers {
   onStatus?: (message: string) => void
   onToken?: (token: string) => void
+  onTitle?: (title: string) => void
   onDone?: () => void
   onError?: (err: Error) => void
 }
@@ -44,6 +45,9 @@ export function streamMessage(
           break
         case 'content':
           handlers.onToken?.(parsed.token)
+          break
+        case 'title':
+          handlers.onTitle?.(parsed.title)
           break
         case 'done':
           handlers.onDone?.()

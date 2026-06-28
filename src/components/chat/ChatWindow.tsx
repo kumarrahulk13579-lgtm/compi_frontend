@@ -13,6 +13,7 @@ interface Props {
   onMenu: () => void
   sidebarCollapsed: boolean
   onExpandSidebar: () => void
+  onTitle?: (id: number, title: string) => void
 }
 
 const SUGGESTIONS = [
@@ -28,8 +29,12 @@ export function ChatWindow({
   onMenu,
   sidebarCollapsed,
   onExpandSidebar,
+  onTitle,
 }: Props) {
-  const { messages, loadingHistory, streaming, status, send, stop } = useChat(conversationId)
+  const { messages, loadingHistory, streaming, status, send, stop } = useChat(
+    conversationId,
+    onTitle,
+  )
   const isEmpty = !loadingHistory && messages.length === 0
   const robotState = deriveRobotState(status, streaming)
 

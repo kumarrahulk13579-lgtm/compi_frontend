@@ -5,7 +5,7 @@ import { useConversations } from '@/hooks/useConversations'
 import { useToast } from '@/context/ToastContext'
 
 export function ChatPage() {
-  const { conversations, loading, create } = useConversations()
+  const { conversations, loading, create, updateTitle } = useConversations()
   const [activeId, setActiveId] = useState<number | null>(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [collapsed, setCollapsed] = useState(
@@ -70,6 +70,7 @@ export function ChatPage() {
           onMenu={() => setSidebarOpen(true)}
           sidebarCollapsed={collapsed}
           onExpandSidebar={() => setCollapsed(false)}
+          onTitle={updateTitle}
         />
       </main>
     </div>
